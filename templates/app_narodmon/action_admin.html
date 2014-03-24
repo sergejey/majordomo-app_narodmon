@@ -1,0 +1,96 @@
+
+<h1>Народный мониторинг</h1>
+<p>Данное приложение предназначено для настройки автоматической отправки данных температуры и давления в проект <a href="http://narodmon.ru" target=_blank>"Народный мониторинг"</a></p>
+
+[#if LATEST_SENT!=""#]
+<h2>Последняя отправка</h2>
+<p>
+Отправлено ([#LATEST_UPDATE#]):
+<pre>[#LATEST_SENT#]</pre><br>
+Ответ:
+<pre>[#LATEST_RESULT#]</pre>
+<a href="?mode=refresh">Отправить повторно</a>
+</p>
+[#endif LATEST_RESULTS#]
+
+<form action="?" method="post" enctype="multipart/form-data" name="frmEdit" class="form-horizontal">
+<h2>Настройка</h2>
+<fieldset>
+
+<div class="control-group">
+ <label class="control-label"[#if ERR_SERVER_MAC#] style="color:red;font-weight:bold"[#endif#]>
+ <b>Уникальный MAC(ID) сервера:</b>
+ </label>
+ <div class="controls"><input type="text" name="server_mac" value="<#SERVER_MAC#>" class="input">
+ (используется для идентификации источника данных)
+ </div>
+</div>
+
+<div class="control-group">
+ <label class="control-label"[#if ERR_SERVER_NAME#] style="color:red;font-weight:bold"[#endif#]>
+ Название NAME сервера:
+ </label>
+ <div class="controls"><input type="text" name="server_name" value="<#SERVER_NAME#>" class="input">
+ (опционально)
+ </div>
+</div>
+
+<div class="control-group">
+ <label class="control-label"[#if ERR_TEMP_ID#] style="color:red;font-weight:bold"[#endif#]>
+ <b>MAC(ID) датчика температуры:</b>
+ </label>
+ <div class="controls"><input type="text" name="temp_id" value="<#TEMP_ID#>" class="input"></div>
+</div>
+
+<div class="control-group">
+ <label class="control-label"[#if ERR_TEMP_LINKED#] style="color:red;font-weight:bold"[#endif#]>
+ <b>Источник показаний температуры:</b>
+ </label>
+ <div class="controls"><input type="text" name="temp_linked" value="<#TEMP_LINKED#>" class="input">
+ (связанное свойство в виде object.property)
+ </div>
+</div>
+
+<div class="control-group">
+ <label class="control-label"[#if ERR_PRESS_ID#] style="color:red;font-weight:bold"[#endif#]>
+ MAC(ID) датчика давления:
+ </label>
+ <div class="controls"><input type="text" name="press_id" value="<#PRESS_ID#>" class="input">
+ (опционально)
+ </div>
+</div>
+
+<div class="control-group">
+ <label class="control-label"[#if ERR_PRESS_LINKED#] style="color:red;font-weight:bold"[#endif#]>
+ Источник показаний давления:
+ </label>
+ <div class="controls"><input type="text" name="press_linked" value="<#PRESS_LINKED#>" class="input">
+ (опционально, связанное свойство в виде object.property)
+ </div>
+</div>
+
+<div class="control-group">
+ <label class="control-label">
+ Отправлять показания каждые:
+ </label>
+ <div class="controls">
+ <select name="every" class="input span2">
+  <option>5
+  <option[#if EVERY="10"#] selected[#endif#]>10
+  <option[#if EVERY="15"#] selected[#endif#]>15
+  <option[#if EVERY="20"#] selected[#endif#]>20
+  <option[#if EVERY="30"#] selected[#endif#]>30
+  <option[#if EVERY="60"#] selected[#endif#]>60
+ </select>
+  минут
+ </div>
+</div>
+
+
+<div class="form-actions">
+<button type="submit" name="subm" value="Submit" class="btn btn-primary"><#LANG_UPDATE#></button>
+<input type="hidden" name="view_mode" value="update_settings">
+<input type="hidden" name="mode" value="update">
+</div>
+</fieldset>
+</form>
