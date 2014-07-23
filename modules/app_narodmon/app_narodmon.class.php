@@ -122,6 +122,10 @@ function run() {
   $this->getConfig();  
 
 
+  if (!$this->config['SERVER_MAC']) {
+   return;
+  }
+
   $send="#".$this->config['SERVER_MAC'];
   if ($this->config['SERVER_NAME']) {
    $send.="#".$this->config['SERVER_NAME'];
@@ -149,15 +153,15 @@ function run() {
   $send.="##";
 
   $fp = @fsockopen("tcp://narodmon.ru", 8283, $errno, $errstr);
-  if(!$fp) exit("ERROR(".$errno."): ".$errstr);
-  fwrite($fp, $send);
+  if($fp) {
+   fwrite($fp, $send);
 
-  $result='';
-  while (!feof($fp)) {
-    $result.=fread($fp, 128);
+   $result='';
+   while (!feof($fp)) {
+     $result.=fread($fp, 128);
+   }
   }
-
-  fclose($fp);
+  @fclose($fp);
 
   $this->config['LATEST_SENT']=$send;
   $this->config['LATEST_RESULT']=$result;
